@@ -1,0 +1,12 @@
+target/
+Cargo.lock
+*.log
+.DS_Store
+node_modules/
+dist/
+build/
+*.tmp
+.env
+.idea/
+.vscode/
+
