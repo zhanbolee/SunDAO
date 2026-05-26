@@ -11,8 +11,12 @@ build/
 .vscode/
 
 # 机密文档 - 不纳入版本控制
+docs/02-架构总览.md
+docs/03-子项目划分.md
+docs/04-路线图.md
+docs/05-开发指南.md
 docs/06-商业计划书.md
 docs/07-商业计划书v2.md
 docs/10-融资谈判策略.md
+docs/11-SunDAO深度技术评估报告.md
 docs/12-商业计划书v3.md
-
