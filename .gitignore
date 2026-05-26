@@ -10,3 +10,9 @@ build/
 .idea/
 .vscode/
 
+# 机密文档 - 不纳入版本控制
+docs/06-商业计划书.md
+docs/07-商业计划书v2.md
+docs/10-融资谈判策略.md
+docs/12-商业计划书v3.md
+
