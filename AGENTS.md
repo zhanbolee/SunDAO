@@ -43,11 +43,11 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 ```
 ~/Workspace/
 ├── SunDAO/                  # ← 当前仓库（文档协调）
-├── SunDaoQL/                # ← Rust Cargo Workspace，核心存储引擎（16个crate）
-├── SunDaoQLServer/          # ← Rust Cargo Workspace，WebSocket 服务层
+├── SunDaoQL/                # ← 自研内核，核心存储引擎（模块化架构）
+├── SunDaoQLServer/          # ← 自研内核，网络服务层
 ├── SunDaoCode/             # ← Node.js 应用，Web 前端
-├── SunDaoAgent/             # ← Rust Crate，AI Agent 框架
-├── SunDaoLLM/               # ← Rust Cargo Workspace，LLM 推理引擎
+├── SunDaoAgent/             # ← 自研内核，AI Agent 框架
+├── SunDaoLLM/               # ← 自研内核，推理服务平台
 └── SunDaoApp/               # ← 规划中，跨平台客户端（尚未创建）
 ```
 
@@ -60,18 +60,18 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 | 层级 | 子项目 | 技术栈 | 类型 |
 |------|--------|--------|------|
 | 客户端 | SunDaoCode | Node.js + Express + 原生 HTML/CSS/JS | 应用 |
-| 服务层 | SunDaoQLServer | Rust 1.85+ (2024 edition), tokio, tokio-tungstenite | 可执行服务 |
-| 存储层 | SunDaoQL | Rust 1.85+ (2024 edition), Cargo Workspace (16 crates) | 库 |
-| AI 层 | SunDaoAgent | Rust 1.85+ | 库 |
-| AI 层 | SunDaoLLM | Rust 1.85+, candle-core, tokenizers | 库 |
-| 客户端 | SunDaoApp | 待定（Electron / Neutralino.js / Tauri 选型中） | 应用 |
+| 服务层 | SunDaoQLServer | 自研内核，异步网络服务 | 可执行服务 |
+| 存储层 | SunDaoQL | 自研内核，模块化架构 | 库 |
+| AI 层 | SunDaoAgent | 自研内核 | 库 |
+| AI 层 | SunDaoLLM | 自研内核，AI推理框架 | 库 |
+| 客户端 | SunDaoApp | 跨平台框架（选型中） | 应用 |
 
 ### 关键外部依赖选型
 - **序列化**：postcard（二进制零拷贝）
 - **全文索引**：tantivy + jieba 中文分词
 - **位图索引**：roaring
 - **时间索引**：redb
-- **脚本引擎**：Rhai
+- **脚本引擎**：嵌入式脚本
 - **监控**：Prometheus + tracing + OpenTelemetry
 
 ---
@@ -82,11 +82,11 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 
 | 组件 | 最低版本 |
 |------|----------|
-| Rust | 1.85+ |
+| 系统编程语言 | 现代版本 |
 | Node.js | 20+ |
 | Git | 2.40+ |
 
-初始化 Rust 工具链：
+初始化开发工具链：
 ```bash
 rustup update stable
 rustup component add clippy rustfmt
@@ -162,7 +162,7 @@ cargo build --features inference
 
 ## 五、代码风格规范
 
-### 5.1 Rust 命名规范
+### 5.1 代码命名规范
 
 | 类型 | 规范 | 示例 |
 |------|------|------|
@@ -173,7 +173,7 @@ cargo build --features inference
 | 模块 | 小写下划线 | `graph_engine`, `wal_writer` |
 | 宏 | 小写下划线 | `debug_graph_op!` |
 
-### 5.2 Rust 文档注释规范
+### 5.2 代码文档规范
 
 - 使用 `///` 为公共 API 编写文档注释。
 - 文档注释使用**中文**（与项目整体语言一致）。
@@ -223,7 +223,7 @@ pub enum DaoError {
 
 ## 六、测试策略
 
-### 6.1 Rust 测试层级
+### 6.1 代码测试层级
 
 | 层级 | 类型 | 说明 | 命令示例 |
 |------|------|------|----------|
@@ -365,11 +365,11 @@ cargo flamegraph --bench xy_erp_stress
 
 ## 十、安全注意事项
 
-- **国密算法**：存储层使用 SM2/SM3/SM4 国密算法，WAL 和 RawLayer 默认加密。
+- **国密算法**：存储层使用 SM2/SM3/SM4 国密算法，审计日志和原始数据层默认加密。
 - **传输加密**：WebSocket 通道使用 SM4-CTR 或 TLS 1.3。
-- **认证机制**：ProKey 渐进式密钥认证（Ed25519 签名 + Nonce 防重放）。
-- **权限控制**：CBAC（基于角色的访问控制）+ ACL（字段级权限）+ 多租户隔离。
-- **审计**：WAL 即审计日志，不可变追加，天然满足审计需求。
+- **认证机制**：渐进式密钥认证（防重放）。
+- **权限控制**：角色权限控制+ 字段级权限+ 多租户隔离。
+- **审计**：append-only 审计日志，不可变追加，天然满足审计需求。
 - **闭源软件**：本项目为闭源软件，未经许可不得复制、修改、分发。
 
 ---
@@ -378,11 +378,11 @@ cargo flamegraph --bench xy_erp_stress
 
 | 子项目 | 路径（相对于当前仓库） | 类型 | 状态 |
 |--------|------------------------|------|------|
-| SunDaoQL | `../SunDaoQL/` | Rust Cargo Workspace（库） | 开发中 |
-| SunDaoQLServer | `../SunDaoQLServer/` | Rust Cargo Workspace（服务） | 开发中 |
+| SunDaoQL | `../SunDaoQL/` | 自研内核（库） | 开发中 |
+| SunDaoQLServer | `../SunDaoQLServer/` | 自研内核（服务层） | 开发中 |
 | SunDaoCode | `../SunDaoCode/` | Node.js 应用 | 开发中 |
-| SunDaoAgent | `../SunDaoAgent/` | Rust Crate（库） | 开发中 |
-| SunDaoLLM | `../SunDaoLLM/` | Rust Cargo Workspace（库） | 开发中 |
+| SunDaoAgent | `../SunDaoAgent/` | 自研内核（库） | 开发中 |
+| SunDaoLLM | `../SunDaoLLM/` | 自研内核（库） | 开发中 |
 | SunDaoApp | `../SunDaoApp/` | 待定 | 规划中 |
 
 ---
