@@ -48,7 +48,7 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 ├── SunDaoQLWeb/             # ← Node.js 应用，Web 前端
 ├── SunDaoAgent/             # ← Rust Crate，AI Agent 框架
 ├── SunDaoLLM/               # ← Rust Cargo Workspace，LLM 推理引擎
-└── SunDaoApp/               # ← 规划中，跨平台客户端（尚未创建）
+└── SunDaoApp/               # ← 活跃开发，跨平台瘦客户端（Tauri v2 + Vue 3），本地 UI 模板缓存，业务数据通过 WebSocket 连接 QLServer
 ```
 
 **注意**：这些子项目**不是**本仓库的 git submodule，而是独立的同级目录仓库。修改代码时必须切换到对应的子项目目录。
@@ -64,7 +64,7 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 | 存储层 | SunDaoQL | Rust 1.85+ (2024 edition), Cargo Workspace (16 crates) | 库 |
 | AI 层 | SunDaoAgent | Rust 1.85+ | 库 |
 | AI 层 | SunDaoLLM | Rust 1.85+, candle-core, tokenizers | 库 |
-| 客户端 | SunDaoApp | 待定（Electron / Neutralino.js / Tauri 选型中） | 应用 |
+| 客户端 | SunDaoApp | Tauri v2 (Rust + WebView) + Vue 3 + TypeScript | 应用 |
 
 ### 关键外部依赖选型
 - **序列化**：postcard（二进制零拷贝）
