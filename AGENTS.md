@@ -45,7 +45,7 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 ├── SunDAO/                  # ← 当前仓库（文档协调）
 ├── SunDaoQL/                # ← 自研内核，核心存储引擎（模块化架构）
 ├── SunDaoQLServer/          # ← 自研内核，网络服务层
-├── SunDaoCode/             # ← Node.js 应用，Web 前端
+├── SunDaoCode/             # ← 基于 SunDaoApp 的开发者工具
 ├── SunDaoAgent/             # ← 自研内核，AI Agent 框架
 ├── SunDaoLLM/               # ← 自研内核，推理服务平台
 └── SunDaoApp/               # ← 规划中，跨平台客户端（尚未创建）
@@ -59,7 +59,7 @@ SunDAO/                      # ← 当前仓库（本文档所在位置）
 
 | 层级 | 子项目 | 技术栈 | 类型 |
 |------|--------|--------|------|
-| 客户端 | SunDaoCode | Node.js + Express + 原生 HTML/CSS/JS | 应用 |
+| 客户端 | SunDaoCode | 基于 SunDaoApp 技术栈 | 应用 |
 | 服务层 | SunDaoQLServer | 自研内核，异步网络服务 | 可执行服务 |
 | 存储层 | SunDaoQL | 自研内核，模块化架构 | 库 |
 | AI 层 | SunDaoAgent | 自研内核 | 库 |
@@ -126,7 +126,7 @@ cargo build --release
 cargo run --bin sundaoql-server -- --config sundaoqlserver.toml
 ```
 
-### 4.4 Web 前端（SunDaoCode）
+### 4.4 开发者工具（SunDaoCode）
 
 ```bash
 cd ../SunDaoCode
@@ -380,7 +380,7 @@ cargo flamegraph --bench xy_erp_stress
 |--------|------------------------|------|------|
 | SunDaoQL | `../SunDaoQL/` | 自研内核（库） | 开发中 |
 | SunDaoQLServer | `../SunDaoQLServer/` | 自研内核（服务层） | 开发中 |
-| SunDaoCode | `../SunDaoCode/` | Node.js 应用 | 开发中 |
+| SunDaoCode | `../SunDaoCode/` | 基于 SunDaoApp 的开发者工具 | 开发中 |
 | SunDaoAgent | `../SunDaoAgent/` | 自研内核（库） | 开发中 |
 | SunDaoLLM | `../SunDaoLLM/` | 自研内核（库） | 开发中 |
 | SunDaoApp | `../SunDaoApp/` | 待定 | 规划中 |
